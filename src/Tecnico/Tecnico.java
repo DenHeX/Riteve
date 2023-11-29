@@ -2,7 +2,7 @@ package Tecnico;
 
 /**
  *
- * @author ´Felipe Chacón
+ * @author ´Ronny Sandino
  */
 public class Tecnico {
 
