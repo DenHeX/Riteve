@@ -34,7 +34,7 @@ public class DaoBD {
 
     private void connect() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/video", "java", "123");
+            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/riteve", "java", "123");
         } catch (SQLException ex) {
             System.out.println("Error al conectar");
         }

@@ -27,28 +27,42 @@ public class TecnicoDao implements Crud<TecnicoDto> {
     }
 
     @Override
-    public boolean agregar(TecnicoDto obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean agregar(TecnicoDto tecnico) {
+        if (tecnico == null || tecnicosList.contains(tecnico)) {
+            return false;
+        }
+        tecnicosList.add(tecnico);
+        return true;
     }
 
     @Override
-    public TecnicoDto cargar(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public TecnicoDto cargar(String cedula) {
+        for (TecnicoDto tecnico : tecnicosList) {
+            if (tecnico.getCedula().equals(cedula)) {
+                return tecnico;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<TecnicoDto> cargarTodo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new ArrayList<>(tecnicosList);
     }
 
     @Override
-    public boolean actualizar(TecnicoDto obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean actualizar(TecnicoDto tecnico) {
+        for (int i = 0; i < tecnicosList.size(); i++) {
+            if (tecnicosList.get(i).getCedula().equals(tecnico.getCedula())) {
+                tecnicosList.set(i, tecnico);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public boolean eliminar(TecnicoDto obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminar(TecnicoDto tecnico) {
+        return tecnicosList.remove(tecnico);
     }
-
 }
