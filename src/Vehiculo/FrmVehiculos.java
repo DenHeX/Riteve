@@ -4,11 +4,19 @@
  */
 package Vehiculo;
 
+import Views.Table;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import java.sql.Date;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ´Felipe Chacón
  */
 public class FrmVehiculos extends javax.swing.JInternalFrame {
+
+    private VehiculoControlador controlador;
 
     /**
      * Creates new form FrmVehiculos
@@ -16,6 +24,48 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
     public FrmVehiculos() {
         initComponents();
         this.setResizable(false);
+        controlador = new VehiculoControlador(this);
+        controlador.cargarTodo();
+    }
+
+    public void notificar(String msj, int tipo) {
+        JOptionPane.showMessageDialog(this, msj, "Notificación", tipo);
+    }
+
+    public void cargarDatos(Vehiculo vehiculo) {
+        txtPlaca.setText(vehiculo.getNumeroPlaca());
+        txtMarca.setText(vehiculo.getMarca());
+        txtModelo.setText(vehiculo.getModelo());
+        txtAnio.setText(String.valueOf(vehiculo.getAnio()));
+        txtFechadeInscripcion.setText(String.valueOf(vehiculo.getFechaInscripcion()));
+        txtCedulaPropietario.setText(vehiculo.getCedulaPropietario());
+        txtNombrePropietario.setText(vehiculo.getNombrePropietario());
+    }
+
+    public void mostrarTodo(ArrayList<VehiculoDto> lista) {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Número de Placa");
+        model.addColumn("Marca");
+        model.addColumn("Modelo");
+        model.addColumn("Año");
+        model.addColumn("Fecha de Inscripción");
+        model.addColumn("Cédula del Propietario");
+        model.addColumn("Nombre del Propietario");
+
+        for (VehiculoDto vehiculo : lista) {
+            Object[] row = {
+                vehiculo.getNumeroPlaca(),
+                vehiculo.getMarca(),
+                vehiculo.getModelo(),
+                vehiculo.getAnio(),
+                vehiculo.getFechaInscripcion(),
+                vehiculo.getCedulaPropietario(),
+                vehiculo.getNombrePropietario()
+            };
+            model.addRow(row);
+        }
+
+        tblVehiculos.setModel(model);
     }
 
     /**
@@ -29,22 +79,22 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCategorias = new javax.swing.JTable();
+        tblVehiculos = new javax.swing.JTable();
         txtFiltro = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
-        btn1 = new javax.swing.JButton();
-        btn2 = new javax.swing.JButton();
-        btn3 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtPlaca = new javax.swing.JFormattedTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtModelo = new javax.swing.JTextField();
         txtMarca = new javax.swing.JTextField();
         txtAnio = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
+        txtPlaca = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtFechadeInscripcion = new javax.swing.JFormattedTextField();
@@ -58,7 +108,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        tblCategorias.setModel(new javax.swing.table.DefaultTableModel(
+        tblVehiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -69,14 +119,14 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tblCategorias);
-
-        txtFiltro.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroActionPerformed(evt);
+        tblVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVehiculosMouseClicked(evt);
             }
         });
+        jScrollPane1.setViewportView(tblVehiculos);
+
+        txtFiltro.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtFiltroKeyReleased(evt);
@@ -106,7 +156,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/disco-flexible.png"))); // NOI18N
         btnAgregar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -117,25 +167,37 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnAgregar);
 
-        btn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/basura.png"))); // NOI18N
-        btn1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(btn1);
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/basura.png"))); // NOI18N
+        btnEliminar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnEliminar);
 
-        btn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/editar.png"))); // NOI18N
-        btn2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(btn2);
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/editar.png"))); // NOI18N
+        btnModificar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnModificar);
 
-        btn3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/buscar.png"))); // NOI18N
-        btn3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.add(btn3);
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/buscar.png"))); // NOI18N
+        btnBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnBuscar);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Placa");
-
-        txtPlaca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
-        txtPlaca.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Marca");
@@ -153,6 +215,8 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Año");
 
+        txtPlaca.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -161,8 +225,8 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                    .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -192,9 +256,9 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -212,11 +276,6 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         txtCedulaPropietario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         txtNombrePropietario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtNombrePropietario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombrePropietarioActionPerformed(evt);
-            }
-        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Nombre propietario");
@@ -285,27 +344,60 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        Vehiculo vehiculo = new Vehiculo(
+                txtPlaca.getText(),
+                txtMarca.getText(),
+                txtModelo.getText(),
+                Integer.parseInt(txtAnio.getText()),
+                Date.valueOf(txtFechadeInscripcion.getText()), // Asumiendo que txtFechaInscripcion es un JTextField
+                txtCedulaPropietario.getText(),
+                txtNombrePropietario.getText()
+        );
+        controlador.agregar(vehiculo);
+        controlador.clear();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFiltroActionPerformed
-
     private void txtFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyReleased
-        Table.filter(this.tblMembers, txtFiltro.getText());
+        Table.filter(this.tblVehiculos, txtFiltro.getText());
     }//GEN-LAST:event_txtFiltroKeyReleased
 
-    private void txtNombrePropietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombrePropietarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombrePropietarioActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        String numeroPlaca = txtPlaca.getText();
+        controlador.eliminar(numeroPlaca);
+        controlador.clear();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        Vehiculo vehiculo = new Vehiculo(
+                txtPlaca.getText(),
+                txtMarca.getText(),
+                txtModelo.getText(),
+                Integer.parseInt(txtAnio.getText()),
+                Date.valueOf(txtFechadeInscripcion.getText()), // Asumiendo que txtFechaInscripcion es un JTextField
+                txtCedulaPropietario.getText(),
+                txtNombrePropietario.getText()
+        );
+        controlador.modificar(vehiculo);
+        controlador.clear();
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String numeroPlaca = txtPlaca.getText();
+        controlador.buscar(numeroPlaca);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void tblVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVehiculosMouseClicked
+        int row = tblVehiculos.getSelectedRow();
+        Object numeroPlaca = tblVehiculos.getValueAt(row, 0);
+        controlador.buscar((String) numeroPlaca);
+    }//GEN-LAST:event_tblVehiculosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn1;
-    private javax.swing.JButton btn2;
-    private javax.swing.JButton btn3;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -318,14 +410,14 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblCategorias;
-    private javax.swing.JFormattedTextField txtAnio;
-    private javax.swing.JTextField txtCedulaPropietario;
-    private javax.swing.JFormattedTextField txtFechadeInscripcion;
+    private javax.swing.JTable tblVehiculos;
+    public static javax.swing.JFormattedTextField txtAnio;
+    public static javax.swing.JTextField txtCedulaPropietario;
+    public static javax.swing.JFormattedTextField txtFechadeInscripcion;
     private javax.swing.JTextField txtFiltro;
-    private javax.swing.JTextField txtMarca;
-    private javax.swing.JTextField txtModelo;
-    private javax.swing.JTextField txtNombrePropietario;
-    private javax.swing.JFormattedTextField txtPlaca;
+    public static javax.swing.JTextField txtMarca;
+    public static javax.swing.JTextField txtModelo;
+    public static javax.swing.JTextField txtNombrePropietario;
+    public static javax.swing.JTextField txtPlaca;
     // End of variables declaration//GEN-END:variables
 }

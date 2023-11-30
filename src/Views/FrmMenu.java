@@ -33,7 +33,6 @@ public class FrmMenu extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         menuManage = new javax.swing.JMenu();
         menuVehiculos = new javax.swing.JMenuItem();
-        menuCitas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,7 +49,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         menu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        menuManage.setText("Manage");
+        menuManage.setText("Gestion");
         menuManage.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         menuVehiculos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -62,16 +61,6 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
         menuManage.add(menuVehiculos);
-
-        menuCitas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        menuCitas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        menuCitas.setText("Citas");
-        menuCitas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuCitasActionPerformed(evt);
-            }
-        });
-        menuManage.add(menuCitas);
 
         menu.add(menuManage);
 
@@ -95,10 +84,6 @@ public class FrmMenu extends javax.swing.JFrame {
         FrmVehiculos frm = new FrmVehiculos();
         View.showInternal(desktopMenu, frm);
     }//GEN-LAST:event_menuVehiculosActionPerformed
-
-    private void menuCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCitasActionPerformed
-
-    }//GEN-LAST:event_menuCitasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,7 +154,6 @@ public class FrmMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane desktopMenu;
     private javax.swing.JMenuBar menu;
-    private javax.swing.JMenuItem menuCitas;
     private javax.swing.JMenu menuManage;
     private javax.swing.JMenuItem menuVehiculos;
     // End of variables declaration//GEN-END:variables

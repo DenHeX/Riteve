@@ -58,8 +58,4 @@ public class VehiculoDto {
         this.nombrePropietario = nombrePropietario;
     }
 
-    public VehiculoDto() {
-    }
-    
-    
 }
