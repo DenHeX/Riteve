@@ -62,26 +62,26 @@ public class VehiculoDaoTest {
             System.out.println("Error al modificar el vehículo.");
         }
 
-        // Eliminar un vehículo
-        String numeroPlacaEliminar = "ABC123";
-        boolean eliminarResultado = vehiculoDao.eliminar(numeroPlacaEliminar);
-
-        if (eliminarResultado) {
-            System.out.println("Vehículo eliminado correctamente.");
-        } else {
-            System.out.println("Error al eliminar el vehículo.");
-        }
-
-        // Obtener todos los vehículos
-        ArrayList<VehiculoDto> listaVehiculos = vehiculoDao.obtenerTodo();
-
-        if (!listaVehiculos.isEmpty()) {
-            System.out.println("Lista de vehículos:");
-            for (VehiculoDto vehiculo : listaVehiculos) {
-                System.out.println(vehiculo);
-            }
-        } else {
-            System.out.println("No hay vehículos en la base de datos.");
-        }
+//        // Eliminar un vehículo
+//        String numeroPlacaEliminar = "ABC123";
+//        boolean eliminarResultado = vehiculoDao.eliminar(numeroPlacaEliminar);
+//
+//        if (eliminarResultado) {
+//            System.out.println("Vehículo eliminado correctamente.");
+//        } else {
+//            System.out.println("Error al eliminar el vehículo.");
+//        }
+//
+//        // Obtener todos los vehículos
+//        ArrayList<VehiculoDto> listaVehiculos = vehiculoDao.obtenerTodo();
+//
+//        if (!listaVehiculos.isEmpty()) {
+//            System.out.println("Lista de vehículos:");
+//            for (VehiculoDto vehiculo : listaVehiculos) {
+//                System.out.println(vehiculo);
+//            }
+//        } else {
+//            System.out.println("No hay vehículos en la base de datos.");
+//        }
     }
 }

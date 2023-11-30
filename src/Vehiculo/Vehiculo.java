@@ -28,8 +28,17 @@ public class Vehiculo {
         this.nombrePropietario = nombrePropietario;
     }
 
-    // Métodos getter y setter
+    public Vehiculo(String numeroPlaca) {
+        this.numeroPlaca = numeroPlaca;
+        this.marca = "";
+        this.modelo = "";
+        this.anio = 0;
+        this.fechaInscripcion = null;
+        this.cedulaPropietario = "";
+        this.nombrePropietario = "";
+    }
 
+    // Métodos getter y setter
     public String getNumeroPlaca() {
         return numeroPlaca;
     }
