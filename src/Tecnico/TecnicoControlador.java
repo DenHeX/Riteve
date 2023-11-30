@@ -6,6 +6,7 @@ package Tecnico;
 
 import Controlador.Controlador;
 import DaoDB.Dao;
+import Views.Frm;
 import Views.View;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,11 @@ public class TecnicoControlador implements Controlador<Tecnico> {
 
     private View view;
     private Dao dao;
+    Frm vista;
 
+    public TecnicoControlador(Frm vista) {
+        this.vista = vista;
+    }
     public TecnicoControlador(View view, Dao dao) {
         this.view = view;
         this.dao = dao;

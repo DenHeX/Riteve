@@ -12,7 +12,7 @@ public class Tecnico {
     private String telefono;
     private String correo;
     private double salario;
-    private String password;
+    private String contrasena;
 
     public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario) {
         this.cedula = cedula;
@@ -21,7 +21,7 @@ public class Tecnico {
         this.telefono = telefono;
         this.correo = correo;
         this.salario = salario;
-        this.password = "";
+        this.contrasena = "";
     }
 
     public String getCedula() {
@@ -72,12 +72,12 @@ public class Tecnico {
         this.salario = salario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public void calcularDeducciones() {
@@ -101,7 +101,7 @@ public class Tecnico {
 
     public void cambiarContrasena(String contrasenaActual, String nuevaContrasena) {
         if (validarContrasena(contrasenaActual)) {
-            this.password = nuevaContrasena;
+            this.contrasena = nuevaContrasena;
             System.out.println("Contraseña cambiada exitosamente.");
         } else {
             System.out.println("Error: Contraseña actual incorrecta.");
@@ -109,6 +109,6 @@ public class Tecnico {
     }
 
     public boolean validarContrasena(String contrasena) {
-        return this.password.equals(contrasena);
+        return this.contrasena.equals(contrasena);
     }
 }

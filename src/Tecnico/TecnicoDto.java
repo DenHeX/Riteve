@@ -12,7 +12,7 @@ public class TecnicoDto {
     private String telefono;
     private String correo;
     private double salario;
-    private String password;
+    private String contrasena;
 
     public TecnicoDto(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario) {
         this.cedula = cedula;
@@ -21,7 +21,7 @@ public class TecnicoDto {
         this.telefono = telefono;
         this.correo = correo;
         this.salario = salario;
-        this.password = "";
+        this.contrasena = "";
     }
 
     public String getCedula() {
@@ -48,8 +48,8 @@ public class TecnicoDto {
         return salario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getContrasena() {
+        return contrasena;
     }
 
 }
