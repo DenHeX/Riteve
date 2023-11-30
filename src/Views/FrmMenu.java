@@ -4,6 +4,7 @@
  */
 package Views;
 
+import Tecnico.FrmTecnicos;
 import Vehiculo.FrmVehiculos;
 
 /**
@@ -33,6 +34,7 @@ public class FrmMenu extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         menuManage = new javax.swing.JMenu();
         menuVehiculos = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +64,15 @@ public class FrmMenu extends javax.swing.JFrame {
         });
         menuManage.add(menuVehiculos);
 
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jMenuItem1.setText("Técnicos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuManage.add(jMenuItem1);
+
         menu.add(menuManage);
 
         setJMenuBar(menu);
@@ -84,6 +95,12 @@ public class FrmMenu extends javax.swing.JFrame {
         FrmVehiculos frm = new FrmVehiculos();
         View.showInternal(desktopMenu, frm);
     }//GEN-LAST:event_menuVehiculosActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        FrmTecnicos frm = new FrmTecnicos();
+        View.showInternal(desktopMenu, frm);
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,6 +170,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane desktopMenu;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuManage;
     private javax.swing.JMenuItem menuVehiculos;

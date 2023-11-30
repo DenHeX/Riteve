@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Views;
+package Tecnico;
 
+import Views.*;
 import Tecnico.Tecnico;
 import Tecnico.TecnicoControlador;
 import Tecnico.TecnicoDto;
@@ -15,24 +16,25 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author rsand
  */
-public class Frm extends javax.swing.JFrame {
+public class FrmTecnicos extends javax.swing.JFrame {
 
     private TecnicoControlador controlador;
 
     /**
      * Creates new form FrmCategorias
      */
-    public Frm() {
+    public FrmTecnicos() {
         initComponents();
+        this.setResizable(false);
         controlador = new TecnicoControlador(this);
-      //controlador.readAll();
+        controlador.cargarTodo();
     }
 
-//    public void notificar(String msj, int tipo) {
-//        JOptionPane.showMessageDialog(this, msj, "Notificacion", tipo);
-//    }
+    public void notificar(String msj, int tipo) {
+        JOptionPane.showMessageDialog(this, msj, "Notificacion", tipo);
+    }
 
-    public void readAll(Tecnico tec) {
+    public void cargarDatos(Tecnico tec) {
         txtCedula.setText(String.valueOf(tec.getCedula()));
         txtNombre.setText(tec.getNombre());
         txtFechaNacimiento.setText(tec.getFechaNacimiento());
@@ -251,16 +253,18 @@ public class Frm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-    Tecnico tec = new Tecnico(
-        txtCedula.getText(),
-        txtNombre.getText(),
-        txtFechaNacimiento.getText(),
-        txtTelefono.getText(),
-        txtCorreo.getText(),
-        Double.parseDouble(txtSalario.getText())
-    );
+        Tecnico tec = new Tecnico(
+                txtCedula.getText(),
+                txtNombre.getText(),
+                txtFechaNacimiento.getText(),
+                txtTelefono.getText(),
+                txtCorreo.getText(),
+                Double.parseDouble(txtSalario.getText())
+        );
 
-    controlador.create(tec);
+        controlador.agregar(tec);
+        controlador.clear();
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
@@ -287,41 +291,41 @@ public class Frm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtContrasenaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Frm().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Frm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Frm().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
@@ -337,13 +341,13 @@ public class Frm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblCategorias;
-    private javax.swing.JTextField txtCedula;
-    private javax.swing.JTextField txtContrasena;
-    private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtFechaNacimiento;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtSalario;
-    private javax.swing.JTextField txtTelefono;
+    public static javax.swing.JTextField txtCedula;
+    public static javax.swing.JTextField txtContrasena;
+    public static javax.swing.JTextField txtCorreo;
+    public static javax.swing.JTextField txtFechaNacimiento;
+    public static javax.swing.JTextField txtNombre;
+    public static javax.swing.JTextField txtSalario;
+    public static javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 
     void mostrarTodo(ArrayList<TecnicoDto> lista) {
@@ -362,5 +366,13 @@ public class Frm extends javax.swing.JFrame {
         }
 
         tblCategorias.setModel(model);
+    }
+
+    void displayMessage(String técnico_agregado_correctamente) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void display(Tecnico tecnico) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

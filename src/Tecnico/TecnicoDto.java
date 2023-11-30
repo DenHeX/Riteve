@@ -14,7 +14,16 @@ public class TecnicoDto {
     private double salario;
     private String contrasena;
 
-    public TecnicoDto(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario) {
+    public TecnicoDto(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario,String contrasena) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.salario = salario;
+        this.contrasena = contrasena;
+    }
+        public TecnicoDto(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;

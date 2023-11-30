@@ -1,137 +1,118 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tecnico;
 
-import Controlador.Controlador;
-import DaoDB.Dao;
-import Views.Frm;
-import Views.View;
+import javax.swing.JOptionPane;
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- *
- * @author ´Felipe Chacón
- */
-public class TecnicoControlador implements Controlador<Tecnico> {
+public class TecnicoControlador {
 
-    private View view;
-    private Dao dao;
-    Frm vista;
+    FrmTecnicos vista;
 
-    public TecnicoControlador(Frm vista) {
+    public TecnicoControlador(FrmTecnicos vista) {
         this.vista = vista;
     }
-    public TecnicoControlador(View view, Dao dao) {
-        this.view = view;
-        this.dao = dao;
-    }
 
-    @Override
-    public boolean create(Tecnico tecnico) {
-        TecnicoDto tecnicoDto = new TecnicoDto(
-                tecnico.getCedula(),
-                tecnico.getNombre(),
-                tecnico.getFechaNacimiento(),
-                tecnico.getTelefono(),
-                tecnico.getCorreo(),
-                tecnico.getSalario()
-        );
+    public void agregar(Tecnico tecnico) {
+        TecnicoDao dao = new TecnicoDao();
 
-        if (dao.agregar(tecnicoDto)) {
-            view.displayMessage("Técnico agregado correctamente");
-            return true;
-        } else {
-            view.displayMessage("Error al agregar técnico");
-            return false;
-        }
-    }
-
-    @Override
-    public Tecnico read(String cedula) {
-        TecnicoDto tecnicoDto = (TecnicoDto) dao.cargar(cedula);
-
-        if (tecnicoDto == null) {
-            view.displayMessage("Técnico no encontrado");
-        } else {
-            Tecnico tecnico = new Tecnico(
-                    tecnicoDto.getCedula(),
-                    tecnicoDto.getNombre(),
-                    tecnicoDto.getFechaNacimiento(),
-                    tecnicoDto.getTelefono(),
-                    tecnicoDto.getCorreo(),
-                    tecnicoDto.getSalario()
-            );
-            view.display(tecnico);
-            return tecnico;
-        }
-        return null;
-    }
-
-    @Override
-    public List<Tecnico> readAll() {
-        List<Tecnico> tecnicos = new ArrayList<>();
-        List<TecnicoDto> tecnicoDtos = dao.cargarTodo();
-
-        for (TecnicoDto tecnicoDto : tecnicoDtos) {
-            Tecnico tecnico = new Tecnico(
-                    tecnicoDto.getCedula(),
-                    tecnicoDto.getNombre(),
-                    tecnicoDto.getFechaNacimiento(),
-                    tecnicoDto.getTelefono(),
-                    tecnicoDto.getCorreo(),
-                    tecnicoDto.getSalario()
-            );
-            tecnicos.add(tecnico);
-        }
-
-        return tecnicos;
-    }
-
-    @Override
-    public boolean update(Tecnico tecnico) {
-        TecnicoDto tecnicoDtoExistente = (TecnicoDto) dao.cargar(tecnico.getCedula());
-
-        if (tecnicoDtoExistente == null) {
-            view.displayMessage("Técnico no encontrado");
-            return false;
-        } else {
-            TecnicoDto tecnicoDtoActualizado = new TecnicoDto(
+        if (dao.buscar(tecnico.getCedula()) == null) {
+            TecnicoDto dto = new TecnicoDto(
                     tecnico.getCedula(),
                     tecnico.getNombre(),
                     tecnico.getFechaNacimiento(),
                     tecnico.getTelefono(),
                     tecnico.getCorreo(),
-                    tecnico.getSalario()
+                    tecnico.getSalario(),
+                    tecnico.getContrasena()
             );
 
-            if (dao.actualizar(tecnicoDtoActualizado)) {
-                view.displayMessage("Técnico actualizado correctamente");
-                return true;
+            boolean exito = dao.insertar(dto);
+
+            if (exito) {
+                tecnico.setCedula(dto.getCedula());
+                vista.cargarDatos(tecnico);
+                cargarTodo();
+                vista.notificar("Técnico guardado correctamente", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                view.displayMessage("Error al actualizar técnico");
-                return false;
+                vista.notificar("Error al guardar el técnico", JOptionPane.ERROR_MESSAGE);
             }
+        } else {
+            vista.notificar("El técnico ya se encuentra registrado", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    @Override
-    public boolean delete(Tecnico tecnico) {
-        TecnicoDto tecnicoDtoExistente = (TecnicoDto) dao.cargar(tecnico.getCedula());
+    public void eliminar(String cedula) {
+        TecnicoDao dao = new TecnicoDao();
+        boolean exito = dao.eliminar(cedula);
 
-        if (tecnicoDtoExistente == null) {
-            view.displayMessage("Técnico no encontrado");
-            return false;
+        if (exito) {
+            this.cargarTodo();
+            vista.notificar("Técnico eliminado correctamente", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (dao.eliminar(tecnicoDtoExistente)) {
-                view.displayMessage("Técnico eliminado correctamente");
-                return true;
-            } else {
-                view.displayMessage("Error al eliminar técnico");
-                return false;
-            }
+            vista.notificar("Error al eliminar el técnico", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void modificar(Tecnico tecnico) {
+        TecnicoDao dao = new TecnicoDao();
+        TecnicoDto dto = new TecnicoDto(
+                tecnico.getCedula(),
+                tecnico.getNombre(),
+                tecnico.getFechaNacimiento(),
+                tecnico.getTelefono(),
+                tecnico.getCorreo(),
+                tecnico.getSalario(),
+                tecnico.getContrasena()
+        );
+
+        boolean exito = dao.modificar(dto);
+
+        if (exito) {
+            this.cargarTodo();
+            vista.notificar("Técnico modificado correctamente", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            vista.notificar("Error al modificar el técnico", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void buscar(String cedula) {
+        TecnicoDao dao = new TecnicoDao();
+        TecnicoDto tecnicoDto = dao.buscar(cedula);
+
+        if (tecnicoDto != null) {
+            Tecnico tecnico = new Tecnico(
+                    tecnicoDto.getCedula(),
+                    tecnicoDto.getNombre(),
+                    tecnicoDto.getFechaNacimiento(),
+                    tecnicoDto.getTelefono(),
+                    tecnicoDto.getCorreo(),
+                    tecnicoDto.getSalario(),
+                    tecnicoDto.getContrasena()
+            );
+
+            vista.cargarDatos(tecnico);
+            vista.notificar("Técnico encontrado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            vista.notificar("Técnico no encontrado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void cargarTodo() {
+        TecnicoDao dao = new TecnicoDao();
+        ArrayList<TecnicoDto> lista = dao.obtenerTodo();
+        if (lista != null) {
+            vista.mostrarTodo(lista);
+        }
+    }
+
+    public void clear() {
+        vista.txtCedula.setText("");
+        vista.txtNombre.setText("");
+        vista.txtFechaNacimiento.setText("");
+        vista.txtTelefono.setText("");
+        vista.txtCorreo.setText("");
+        vista.txtSalario.setText("");
+        vista.txtContrasena.setText("");
     }
 }
+
+

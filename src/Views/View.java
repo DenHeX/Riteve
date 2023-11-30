@@ -1,5 +1,6 @@
 package Views;
 
+import Tecnico.FrmTecnicos;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -7,6 +8,10 @@ import javax.swing.JInternalFrame;
 public interface View<Class> {
 
     public static void showInternal(JDesktopPane desk, JInternalFrame frm) {
+        showInternal(desk, frm);
+    }
+
+    public static void showInternal(JDesktopPane desk, FrmTecnicos frm) {
         int desktopWidth = desk.getWidth();
         int desktopHeight = desk.getHeight();
         int internalFrameWidth = frm.getWidth();

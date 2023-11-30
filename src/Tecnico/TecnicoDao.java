@@ -1,68 +1,102 @@
 package Tecnico;
 
-import Crud.Crud;
+import DaoDB.DaoBD;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- *
- * @author ´Ronny Sandino
- */
-public class TecnicoDao implements Crud<TecnicoDto> {
+public class TecnicoDao {
 
-    private List<TecnicoDto> tecnicosList;
-    private static TecnicoDao instance;
+    // Insertar
+    public boolean insertar(TecnicoDto tecnico) {
+        DaoBD bd = new DaoBD();
 
-    // Constructor privado para implementar Singleton
-    private TecnicoDao() {
-        tecnicosList = new ArrayList<>();
+        bd.crateStatement("INSERT INTO tecnicos VALUES (?, ?, ?, ?, ?, ?, ?)");
+        bd.set(1, tecnico.getCedula());
+        bd.set(2, tecnico.getNombre());
+        bd.set(3, tecnico.getFechaNacimiento());
+        bd.set(4, tecnico.getTelefono());
+        bd.set(5, tecnico.getCorreo());
+        bd.set(6, tecnico.getSalario());
+        bd.set(7, tecnico.getContrasena());
+
+        return bd.execute(false);
     }
 
-    // Método estático para obtener la única instancia de TecnicoDao
-    public static TecnicoDao getInstance() {
-        if (instance == null) {
-            instance = new TecnicoDao();
-        }
-        return instance;
+    // Eliminar
+    public boolean eliminar(String cedula) {
+        DaoBD bd = new DaoBD();
+        bd.crateStatement("DELETE FROM tecnicos WHERE cedula = ?");
+        bd.set(1, cedula);
+        return bd.execute(false);
     }
 
-    @Override
-    public boolean agregar(TecnicoDto tecnico) {
-        if (tecnico == null || tecnicosList.contains(tecnico)) {
-            return false;
-        }
-        tecnicosList.add(tecnico);
-        return true;
+    // Modificar
+    public boolean modificar(TecnicoDto tecnico) {
+        DaoBD bd = new DaoBD();
+        bd.crateStatement("UPDATE tecnicos SET nombre = ?, fecha_nacimiento = ?, telefono = ?, correo = ?, salario = ?, contrasena = ? WHERE cedula = ?");
+        bd.set(1, tecnico.getNombre());
+        bd.set(2, tecnico.getFechaNacimiento());
+        bd.set(3, tecnico.getTelefono());
+        bd.set(4, tecnico.getCorreo());
+        bd.set(5, tecnico.getSalario());
+        bd.set(6, tecnico.getContrasena());
+        bd.set(7, tecnico.getCedula());
+        return bd.execute(false);
     }
 
-    @Override
-    public TecnicoDto cargar(String cedula) {
-        for (TecnicoDto tecnico : tecnicosList) {
-            if (tecnico.getCedula().equals(cedula)) {
-                return tecnico;
+    // Buscar
+    public TecnicoDto buscar(String cedula) {
+        try {
+            DaoBD bd = new DaoBD();
+
+            bd.crateStatement("SELECT * FROM tecnicos WHERE cedula = ?");
+            bd.set(1, cedula);
+            bd.execute(true);
+
+            if (bd.getData().next()) {
+                String nombre = bd.getData().getString("nombre");
+                String fechaNacimiento = bd.getData().getString("fecha_nacimiento");
+                String telefono = bd.getData().getString("telefono");
+                String correo = bd.getData().getString("correo");
+                double salario = bd.getData().getDouble("salario");
+                String contrasena = bd.getData().getString("contrasena");
+
+                return new TecnicoDto(cedula, nombre, fechaNacimiento, telefono, correo, salario, contrasena);
+            } else {
+                return null;
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
-    @Override
-    public List<TecnicoDto> cargarTodo() {
-        return new ArrayList<>(tecnicosList);
-    }
+    // Obtener todos
+    public ArrayList<TecnicoDto> obtenerTodo() {
+        try {
+            DaoBD bd = new DaoBD();
 
-    @Override
-    public boolean actualizar(TecnicoDto tecnico) {
-        for (int i = 0; i < tecnicosList.size(); i++) {
-            if (tecnicosList.get(i).getCedula().equals(tecnico.getCedula())) {
-                tecnicosList.set(i, tecnico);
-                return true;
+            bd.crateStatement("SELECT * FROM tecnicos");
+            bd.execute(true);
+
+            ArrayList<TecnicoDto> lista = new ArrayList<>();
+            while (bd.getData().next()) {
+                String cedula = bd.getData().getString("cedula");
+                String nombre = bd.getData().getString("nombre");
+                String fechaNacimiento = bd.getData().getString("fecha_nacimiento");
+                String telefono = bd.getData().getString("telefono");
+                String correo = bd.getData().getString("correo");
+                double salario = bd.getData().getDouble("salario");
+                String contrasena = bd.getData().getString("contrasena");
+
+                TecnicoDto tecnico = new TecnicoDto(cedula, nombre, fechaNacimiento, telefono, correo, salario, contrasena);
+                lista.add(tecnico);
             }
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return false;
-    }
-
-    @Override
-    public boolean eliminar(TecnicoDto tecnico) {
-        return tecnicosList.remove(tecnico);
     }
 }
+
