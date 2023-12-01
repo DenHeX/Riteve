@@ -54,10 +54,10 @@ public class TecnicoDao {
             bd.execute(true);
 
             if (bd.getData().next()) {
-                String nombre = bd.getData().getString("nombre");
+                String nombre = bd.getData().getString("nombre_completo");
                 String fechaNacimiento = bd.getData().getString("fecha_nacimiento");
                 String telefono = bd.getData().getString("telefono");
-                String correo = bd.getData().getString("correo");
+                String correo = bd.getData().getString("correo_electronico");
                 double salario = bd.getData().getDouble("salario");
                 String contrasena = bd.getData().getString("contrasena");
 
