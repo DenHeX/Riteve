@@ -33,7 +33,7 @@ public class TecnicoDao {
     // Modificar
     public boolean modificar(TecnicoDto tecnico) {
         DaoBD bd = new DaoBD();
-        bd.crateStatement("UPDATE tecnicos SET nombre = ?, fecha_nacimiento = ?, telefono = ?, correo = ?, salario = ?, contrasena = ? WHERE cedula = ?");
+        bd.crateStatement("UPDATE tecnicos SET nombre_completo = ?, fecha_nacimiento = ?, telefono = ?, correo_electronico = ?, salario = ?, contrasena = ? WHERE cedula = ?");
         bd.set(1, tecnico.getNombre());
         bd.set(2, tecnico.getFechaNacimiento());
         bd.set(3, tecnico.getTelefono());

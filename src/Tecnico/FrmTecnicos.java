@@ -1,6 +1,5 @@
 package Tecnico;
 
-
 import Tecnico.Tecnico;
 import Tecnico.TecnicoControlador;
 import Tecnico.TecnicoDto;
@@ -52,7 +51,9 @@ public class FrmTecnicos extends javax.swing.JFrame {
         model.addColumn("Contrasena");
 
         for (TecnicoDto tecDao : lista) {
-            Object[] row = {tecDao.getCedula(), tecDao.getNombre(), tecDao.getFechaNacimiento(), tecDao.getTelefono(), tecDao.getCorreo(), tecDao.getSalario(), tecDao.getContrasena()};
+            Object[] row = {tecDao.getCedula(), tecDao.getNombre(),
+                tecDao.getFechaNacimiento(), tecDao.getTelefono(),
+                tecDao.getCorreo(), tecDao.getSalario(), tecDao.getContrasena()};
             model.addRow(row);
         }
 
@@ -92,9 +93,9 @@ public class FrmTecnicos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTecnicos = new javax.swing.JTable();
 
-        txtFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFiltroActionPerformed(evt);
+        txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFiltroKeyReleased(evt);
             }
         });
 
@@ -274,30 +275,31 @@ public class FrmTecnicos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(81, 81, 81))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtFiltro)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(73, 73, 73)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 747, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(479, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGap(280, 280, 280)
                     .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,18 +309,15 @@ public class FrmTecnicos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFiltroActionPerformed
-        Table.filter(this.tblTecnicos, txtFiltro.getText());
-    }//GEN-LAST:event_txtFiltroActionPerformed
-
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         Tecnico tec = new Tecnico(
-            txtCedula.getText(),
-            txtNombre.getText(),
-            txtFechaNacimiento.getText(),
-            txtTelefono.getText(),
-            txtCorreo.getText(),
-            Double.parseDouble(txtSalario.getText())
+                txtCedula.getText(),
+                txtNombre.getText(),
+                txtFechaNacimiento.getText(),
+                txtTelefono.getText(),
+                txtCorreo.getText(),
+                Double.parseDouble(txtSalario.getText()),
+                txtContrasena.getText()
         );
 
         controlador.modificar(tec);
@@ -327,12 +326,14 @@ public class FrmTecnicos extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         Tecnico tec = new Tecnico(
-            txtCedula.getText(),
-            txtNombre.getText(),
-            txtFechaNacimiento.getText(),
-            txtTelefono.getText(),
-            txtCorreo.getText(),
-            Double.parseDouble(txtSalario.getText())
+                txtCedula.getText(),
+                txtNombre.getText(),
+                txtFechaNacimiento.getText(),
+                txtTelefono.getText(),
+                txtCorreo.getText(),
+                Double.parseDouble(txtSalario.getText()),
+                        txtContrasena.getText()
+                
         );
 
         controlador.agregar(tec);
@@ -355,6 +356,10 @@ public class FrmTecnicos extends javax.swing.JFrame {
         Object numeroPlaca = tblTecnicos.getValueAt(row, 0);
         controlador.buscar((String) numeroPlaca);
     }//GEN-LAST:event_tblTecnicosMouseClicked
+
+    private void txtFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyReleased
+        Table.filter(this.tblTecnicos, txtFiltro.getText());
+    }//GEN-LAST:event_txtFiltroKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
