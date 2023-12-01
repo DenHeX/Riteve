@@ -85,7 +85,7 @@ public class Tecnico {
         return contrasena;
     }
 
-    public void setPassword(String contrasena) {
+    public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
 
