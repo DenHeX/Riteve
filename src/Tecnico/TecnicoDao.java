@@ -82,14 +82,14 @@ public class TecnicoDao {
             ArrayList<TecnicoDto> lista = new ArrayList<>();
             while (bd.getData().next()) {
                 String cedula = bd.getData().getString("cedula");
-                String nombre = bd.getData().getString("nombre");
-                String fechaNacimiento = bd.getData().getString("fecha_nacimiento");
+                String nombre_completo = bd.getData().getString("nombre_completo");
+                String fecha_nacimiento = bd.getData().getString("fecha_nacimiento");
                 String telefono = bd.getData().getString("telefono");
-                String correo = bd.getData().getString("correo");
+                String correo_electronico = bd.getData().getString("correo_electronico");
                 double salario = bd.getData().getDouble("salario");
                 String contrasena = bd.getData().getString("contrasena");
 
-                TecnicoDto tecnico = new TecnicoDto(cedula, nombre, fechaNacimiento, telefono, correo, salario, contrasena);
+                TecnicoDto tecnico = new TecnicoDto(cedula, nombre_completo, fecha_nacimiento, telefono, correo_electronico, salario, contrasena);
                 lista.add(tecnico);
             }
             return lista;

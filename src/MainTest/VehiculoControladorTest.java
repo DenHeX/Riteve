@@ -13,7 +13,7 @@ import java.sql.Date;
  *
  * @author ´Felipe Chacón
  */
-public class ControladorTest {
+public class VehiculoControladorTest {
 
     public static void main(String[] args) {
         // Crear una instancia de FrmVehiculos
