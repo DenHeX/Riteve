@@ -8,6 +8,7 @@ import Views.Table;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.sql.Date;
+import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -47,7 +48,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         model.addColumn("Número de Placa");
         model.addColumn("Marca");
         model.addColumn("Modelo");
-        model.addColumn("Año");
+        model.addColumn("Antigüedad");
         model.addColumn("Fecha de Inscripción");
         model.addColumn("Cédula del Propietario");
         model.addColumn("Nombre del Propietario");
@@ -57,7 +58,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
                 vehiculo.getNumeroPlaca(),
                 vehiculo.getMarca(),
                 vehiculo.getModelo(),
-                vehiculo.getAnio(),
+                this.calcularAntiguedad(vehiculo.getAnio()), // Calcular la antigüedad
                 vehiculo.getFechaInscripcion(),
                 vehiculo.getCedulaPropietario(),
                 vehiculo.getNombrePropietario()
@@ -66,6 +67,13 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         }
 
         tblVehiculos.setModel(model);
+    }
+
+// Método para calcular la antigüedad
+    private int calcularAntiguedad(int anioFabricacion) {
+        LocalDate fechaActual = LocalDate.now();
+        int anioActual = fechaActual.getYear();
+        return anioActual - anioFabricacion;
     }
 
     /**
@@ -103,8 +111,10 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         txtNombrePropietario = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 153, 0));
         setClosable(true);
-        setForeground(new java.awt.Color(255, 153, 0));
+        setTitle("Administracion de vehiculos");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/seguro-de-coche.png"))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -316,7 +326,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtFechadeInscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

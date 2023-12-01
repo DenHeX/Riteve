@@ -5,6 +5,8 @@
 package Vehiculo;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class Vehiculo {
 
@@ -95,5 +97,4 @@ public class Vehiculo {
         this.nombrePropietario = nombrePropietario;
     }
 
-    // Otros métodos si es necesario
 }
