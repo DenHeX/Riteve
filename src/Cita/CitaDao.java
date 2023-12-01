@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +23,7 @@ public class CitaDao {
     public boolean insertar(CitaDto cita) {
         DaoBD bd = new DaoBD();
 
-        bd.crateStatement("INSERT INTO citas VALUES (?, ?, ?, ?)");
+        bd.createStatement("INSERT INTO citas VALUES (?, ?, ?, ?)");
         bd.set(1, cita.getIdCita());
         bd.set(2, cita.getFecha());
         bd.set(3, cita.getHora());
@@ -32,7 +35,7 @@ public class CitaDao {
     // Eliminar
     public boolean eliminar(int idCita) {
         DaoBD bd = new DaoBD();
-        bd.crateStatement("DELETE FROM citas WHERE id_cita = ?");
+        bd.createStatement("DELETE FROM citas WHERE id_cita = ?");
         bd.set(1, idCita);
         return bd.execute(false);
     }
@@ -40,7 +43,7 @@ public class CitaDao {
     // Modificar
     public boolean modificar(CitaDto cita) {
         DaoBD bd = new DaoBD();
-        bd.crateStatement("UPDATE citas SET fecha = ?, hora = ?, id_vehiculo = ? WHERE id_cita = ?");
+        bd.createStatement("UPDATE citas SET fecha = ?, hora = ?, id_vehiculo = ? WHERE id_cita = ?");
         bd.set(1, cita.getFecha());
         bd.set(2, cita.getHora());
         bd.set(3, cita.getIdVehiculo());
@@ -53,7 +56,7 @@ public class CitaDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.crateStatement("SELECT * FROM citas WHERE id_cita = ?");
+            bd.createStatement("SELECT * FROM citas WHERE id_cita = ?");
             bd.set(1, idCita);
             bd.execute(true);
 
@@ -77,7 +80,7 @@ public class CitaDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.crateStatement("SELECT * FROM citas");
+            bd.createStatement("SELECT * FROM citas");
             bd.execute(true);
 
             ArrayList<CitaDto> lista = new ArrayList<>();
@@ -97,44 +100,31 @@ public class CitaDao {
         }
     }
 
+    // Verificar si un vehículo tiene una cita activa
     public boolean verificarCitaActiva(String idVehiculo) {
         DaoBD bd = new DaoBD();
         bd.createCallableStatement("{CALL VerificarCitaActiva(?, ?)}");
-
-        try {
-            bd.set(1, idVehiculo);
-            bd.set(2, 0); // El segundo parámetro es de salida, inicializado en 0
-
-            bd.execute(true);
-
-            // Obtener el resultado del procedimiento almacenado
-            int citaActiva = bd.getData().getInt(2);
-
-            return citaActiva > 0;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
+        bd.set(1, idVehiculo);
+        bd.setOutputParameter(2, Types.INTEGER); // Parámetro de salida para indicar si hay una cita activa
+        if (bd.execute(true)) {
+            return bd.getOutputParameterValue(2) > 0; // Verificar si el valor es mayor que cero
+        } else {
+            return false; // Por defecto, no hay cita activa
+        } // Por defecto, no hay cita activa
     }
 
-    public int contarCitasEnMismoHorario(Date fecha, Time hora) {
+    // Verificar si hay cuatro citas registradas en la misma fecha y hora con vehículos diferentes
+    public boolean verificarCitasMismoHorario(Date fecha, Time hora) {
         DaoBD bd = new DaoBD();
         bd.createCallableStatement("{CALL CitasMismoHorario(?, ?, ?)}");
-
-        try {
-            bd.set(1, fecha);
-            bd.set(2, hora);
-            bd.set(3, 0); // El tercer parámetro es de salida, inicializado en 0
-
-            bd.execute(true);
-
-            // Obtener el resultado del procedimiento almacenado
-            int citasEnMismoHorario = bd.getData().getInt(3);
-
-            return citasEnMismoHorario;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return 0;
-        }
+        bd.set(1, fecha);
+        bd.set(2, hora);
+        bd.setOutputParameter(3, Types.INTEGER); // Parámetro de salida para indicar si hay cuatro citas registradas
+        if (bd.execute(true)) {
+            return bd.getOutputParameterValue(3) > 0; // Verificar si el valor es mayor que cero
+        } else {
+            return false; // Por defecto, no hay cuatro citas registradas en el mismo horario
+        } // Por defecto, no hay cuatro citas registradas en el mismo horario
     }
+
 }

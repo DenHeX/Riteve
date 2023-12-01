@@ -25,39 +25,36 @@ public class CitaControlador {
     public void agregar(Cita cita) {
         CitaDao dao = new CitaDao();
 
-        try {
-            // Verificar si hay una cita activa para el vehículo
-            if (dao.verificarCitaActiva(cita.getIdVehiculo())) {
-                notificarError("El vehículo ya tiene una cita activa.");
-                return;
-            }
+        // Verificar si el vehículo tiene una cita activa
+        boolean tieneCitaActiva = dao.verificarCitaActiva(cita.getIdVehiculo());
 
-            // Verificar cuántas citas hay en el mismo horario
-            int citasEnMismoHorario = dao.contarCitasEnMismoHorario(cita.getFecha(), cita.getHora());
-            if (citasEnMismoHorario >= 4) {
-                notificarError("Ya existen 4 citas registradas en el mismo horario.");
-                return;
-            }
+        if (tieneCitaActiva) {
+            vista.notificar("El vehículo ya tiene una cita activa.", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            // Agregar la nueva cita
-            CitaDto dto = new CitaDto(
-                    cita.getFecha(),
-                    cita.getHora(),
-                    cita.getIdVehiculo()
-            );
+        // Verificar si hay cuatro citas registradas en la misma fecha y hora con vehículos diferentes
+        boolean hayCitasMismoHorario = dao.verificarCitasMismoHorario(cita.getFecha(), cita.getHora());
 
-            boolean exito = dao.insertar(dto);
+        if (hayCitasMismoHorario) {
+            vista.notificar("Ya hay cuatro citas registradas en la misma fecha y hora.", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            if (exito) {
-                vista.cargarDatos(cita);
-                cargarTodo();
-                notificarExito("Cita guardada correctamente");
-            } else {
-                notificarError("Error al guardar la cita");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            notificarError("Error inesperado al agregar la cita");
+        CitaDto dto = new CitaDto(
+                cita.getFecha(),
+                cita.getHora(),
+                cita.getIdVehiculo()
+        );
+
+        boolean exito = dao.insertar(dto);
+
+        if (exito) {
+            vista.cargarDatos(cita);
+            cargarTodo();
+            vista.notificar("Cita guardada correctamente", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            vista.notificar("Error al guardar la cita", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -75,40 +72,20 @@ public class CitaControlador {
 
     public void modificar(Cita cita) {
         CitaDao dao = new CitaDao();
+        CitaDto dto = new CitaDto(
+                cita.getIdCita(),
+                cita.getFecha(),
+                cita.getHora(),
+                cita.getIdVehiculo()
+        );
 
-        try {
-            // Verificar si hay una cita activa para el vehículo
-            if (dao.verificarCitaActiva(cita.getIdVehiculo())) {
-                notificarError("El vehículo ya tiene una cita activa.");
-                return;
-            }
+        boolean exito = dao.modificar(dto);
 
-            // Verificar cuántas citas hay en el mismo horario
-            int citasEnMismoHorario = dao.contarCitasEnMismoHorario(cita.getFecha(), cita.getHora());
-            if (citasEnMismoHorario >= 4) {
-                notificarError("Ya existen 4 citas registradas en el mismo horario.");
-                return;
-            }
-
-            // Modificar la cita existente
-            CitaDto dto = new CitaDto(
-                    cita.getIdCita(),
-                    cita.getFecha(),
-                    cita.getHora(),
-                    cita.getIdVehiculo()
-            );
-
-            boolean exito = dao.modificar(dto);
-
-            if (exito) {
-                this.cargarTodo();
-                vista.notificar("Cita modificada correctamente", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                notificarError("Error al modificar la cita");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            notificarError("Error inesperado al modificar la cita");
+        if (exito) {
+            this.cargarTodo();
+            vista.notificar("Cita modificada correctamente", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            vista.notificar("Error al modificar la cita", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -145,13 +122,4 @@ public class CitaControlador {
         vista.txtHora.setText("");
         vista.txtPlaca.setText("");
     }
-
-    private void notificarExito(String mensaje) {
-        vista.notificar(mensaje, JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void notificarError(String mensaje) {
-        vista.notificar(mensaje, JOptionPane.ERROR_MESSAGE);
-    }
-
 }

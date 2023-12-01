@@ -4,6 +4,7 @@
  */
 package DaoDB;
 
+import com.mysql.cj.jdbc.CallableStatement;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -48,7 +49,7 @@ public class DaoBD {
         }
     }
 
-    public void crateStatement(String sql) {
+    public void createStatement(String sql) {
         try {
             this.statement = this.connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
         } catch (SQLException ex) {
@@ -82,6 +83,33 @@ public class DaoBD {
                 System.out.println("Error al ejecutar" + ex.toString());
                 return false;
             }
+        }
+    }
+
+    public ResultSet executeQuery() {
+        try {
+            this.resultset = this.statement.executeQuery();
+            return this.resultset;
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar consulta: " + ex.toString());
+            return null;
+        }
+    }
+
+    public void setOutputParameter(int index, int sqlType) {
+        try {
+            ((CallableStatement) this.statement).registerOutParameter(index, sqlType);
+        } catch (SQLException ex) {
+            System.out.println("Error al agregar parámetro de salida: " + ex.toString());
+        }
+    }
+
+    public int getOutputParameterValue(int index) {
+        try {
+            return ((CallableStatement) this.statement).getInt(index);
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener valor de parámetro de salida: " + ex.toString());
+            return 0; // Otra opción: lanzar una excepción o manejar de otra manera
         }
     }
 

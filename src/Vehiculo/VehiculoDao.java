@@ -15,7 +15,7 @@ public class VehiculoDao {
     public boolean insertar(VehiculoDto vehiculo) {
         DaoBD bd = new DaoBD();
 
-        bd.crateStatement("INSERT INTO vehiculos VALUES (?, ?, ?, ?, ?, ?, ?)");
+        bd.createStatement("INSERT INTO vehiculos VALUES (?, ?, ?, ?, ?, ?, ?)");
         bd.set(1, vehiculo.getNumeroPlaca());
         bd.set(2, vehiculo.getMarca());
         bd.set(3, vehiculo.getModelo());
@@ -30,7 +30,7 @@ public class VehiculoDao {
     // Eliminar
     public boolean eliminar(String numeroPlaca) {
         DaoBD bd = new DaoBD();
-        bd.crateStatement("DELETE FROM vehiculos WHERE numero_placa = ?");
+        bd.createStatement("DELETE FROM vehiculos WHERE numero_placa = ?");
         bd.set(1, numeroPlaca);
         return bd.execute(false);
     }
@@ -38,7 +38,7 @@ public class VehiculoDao {
     // Modificar
     public boolean modificar(VehiculoDto vehiculo) {
         DaoBD bd = new DaoBD();
-        bd.crateStatement("UPDATE vehiculos SET marca = ?, modelo = ?, anio = ?, fecha_inscripcion = ?, cedula_propietario = ?, nombre_propietario = ? WHERE numero_placa = ?");
+        bd.createStatement("UPDATE vehiculos SET marca = ?, modelo = ?, anio = ?, fecha_inscripcion = ?, cedula_propietario = ?, nombre_propietario = ? WHERE numero_placa = ?");
         bd.set(1, vehiculo.getMarca());
         bd.set(2, vehiculo.getModelo());
         bd.set(3, vehiculo.getAnio());
@@ -54,7 +54,7 @@ public class VehiculoDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.crateStatement("SELECT * FROM vehiculos WHERE numero_placa = ?");
+            bd.createStatement("SELECT * FROM vehiculos WHERE numero_placa = ?");
             bd.set(1, numeroPlaca);
             bd.execute(true);
 
@@ -81,7 +81,7 @@ public class VehiculoDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.crateStatement("SELECT * FROM vehiculos");
+            bd.createStatement("SELECT * FROM vehiculos");
             bd.execute(true);
 
             ArrayList<VehiculoDto> lista = new ArrayList<>();
