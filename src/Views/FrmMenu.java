@@ -111,7 +111,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         FrmTecnicos frm = new FrmTecnicos();
-        frm.setVisible(true);
+        View.showInternalTecnicos(desktopMenu, frm);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void menuCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCitasActionPerformed
