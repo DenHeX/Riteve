@@ -32,6 +32,14 @@ public class DaoBD {
         }
     }
 
+    public void createCallableStatement(String sql) {
+        try {
+            this.statement = this.connection.prepareCall(sql);
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar el procedimiento almacenado" + ex.toString());
+        }
+    }
+
     private void connect() {
         try {
             this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1/riteve", "java", "123");
