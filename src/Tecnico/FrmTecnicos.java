@@ -367,43 +367,43 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-    // Obtén el técnico actual
-    Tecnico tecActual = obtenerTecnicoActual();
+        // Obtén el técnico actual
+        Tecnico tecActual = obtenerTecnicoActual();
 
-    // Pide al usuario que ingrese su contraseña actual
-    String contrasenaActual = JOptionPane.showInputDialog(this, "Ingrese su contraseña actual:", "Verificar Contraseña", JOptionPane.PLAIN_MESSAGE);
+        // Pide al usuario que ingrese su contraseña actual
+        String contrasenaActual = JOptionPane.showInputDialog(this, "Ingrese su contraseña actual:", "Verificar Contraseña", JOptionPane.PLAIN_MESSAGE);
 
-    // Verifica si el usuario ingresó una contraseña actual
-    if (contrasenaActual != null && contrasenaActual.equals(tecActual.getContrasena())) {
-        // Contraseña actual es válida, ahora pide al usuario que ingrese la nueva contraseña
-        String nuevaContrasena = JOptionPane.showInputDialog(this, "Ingrese su nueva contraseña:", "Modificar Contraseña", JOptionPane.PLAIN_MESSAGE);
+        // Verifica si el usuario ingresó una contraseña actual
+        if (contrasenaActual != null && contrasenaActual.equals(tecActual.getContrasena())) {
+            // Contraseña actual es válida, ahora pide al usuario que ingrese la nueva contraseña
+            String nuevaContrasena = JOptionPane.showInputDialog(this, "Ingrese su nueva contraseña:", "Modificar Contraseña", JOptionPane.PLAIN_MESSAGE);
 
-        // Verifica si el usuario ingresó una nueva contraseña
-        if (nuevaContrasena != null) {
-            // Modifica el técnico con la nueva contraseña
-            tecActual.setContrasena(nuevaContrasena);
+            // Verifica si el usuario ingresó una nueva contraseña
+            if (nuevaContrasena != null) {
+                // Modifica el técnico con la nueva contraseña
+                tecActual.setContrasena(nuevaContrasena);
 
-            // Actualiza el técnico
-            controlador.modificar(tecActual);
-            controlador.clear();
+                // Actualiza el técnico
+                controlador.modificar(tecActual);
+                controlador.clear();
+            } else {
+                notificar("Validar Contraseña.", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else {
-            notificar("Se canceló la modificación de la contraseña.", JOptionPane.INFORMATION_MESSAGE);
+            notificar("Contraseña actual incorrecta. La modificación de la contraseña se canceló.", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        notificar("Contraseña actual incorrecta. La modificación de la contraseña se canceló.", JOptionPane.ERROR_MESSAGE);
     }
-}
 
-private Tecnico obtenerTecnicoActual() {
-    return new Tecnico(
-            txtCedula.getText(),
-            txtNombre.getText(),
-            txtFechaNacimiento.getText(),
-            txtTelefono.getText(),
-            txtCorreo.getText(),
-            Double.parseDouble(txtSalario.getText()),
-            txtContrasena.getText()
-    );
+    private Tecnico obtenerTecnicoActual() {
+        return new Tecnico(
+                txtCedula.getText(),
+                txtNombre.getText(),
+                txtFechaNacimiento.getText(),
+                txtTelefono.getText(),
+                txtCorreo.getText(),
+                Double.parseDouble(txtSalario.getText()),
+                txtContrasena.getText()
+        );
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
