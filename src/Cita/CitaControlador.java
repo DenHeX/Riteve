@@ -4,6 +4,11 @@
  */
 package Cita;
 
+import Vehiculo.FrmVehiculos;
+import Vehiculo.VehiculoDao;
+import Vehiculo.VehiculoDto;
+import static Views.FrmMenu.desktopMenu;
+import Views.View;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -23,31 +28,42 @@ public class CitaControlador {
     }
 
     public void agregar(Cita cita) {
-        CitaDao dao = new CitaDao();
+        CitaDao citaDao = new CitaDao();
+        VehiculoDao vehiculoDao = new VehiculoDao();
 
         // Verificar si el vehículo tiene una cita activa
-        boolean tieneCitaActiva = dao.verificarCitaActiva(cita.getIdVehiculo());
+        boolean tieneCitaActiva = citaDao.verificarCitaActiva(cita.getIdVehiculo());
 
         if (tieneCitaActiva) {
             vista.notificar("El vehículo ya tiene una cita activa.", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        // Verificar si el vehículo existe en la base de datos
+        VehiculoDto vehiculoDto = vehiculoDao.buscar(cita.getIdVehiculo());
+
+        if (vehiculoDto == null) {
+            // Si el vehículo no existe, abrir el formulario FrmVehiculos
+            vista.notificar("El vehículo no existe. Abriendo el formulario para agregar vehículo.", JOptionPane.WARNING_MESSAGE);
+            abrirFrmVehiculos();
+            return;
+        }
+
         // Verificar si hay cuatro citas registradas en la misma fecha y hora con vehículos diferentes
-        boolean hayCitasMismoHorario = dao.verificarCitasMismoHorario(cita.getFecha(), cita.getHora());
+        boolean hayCitasMismoHorario = citaDao.verificarCitasMismoHorario(cita.getFecha(), cita.getHora());
 
         if (hayCitasMismoHorario) {
             vista.notificar("Ya hay cuatro citas registradas en la misma fecha y hora.", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        CitaDto dto = new CitaDto(
+        CitaDto citaDto = new CitaDto(
                 cita.getFecha(),
                 cita.getHora(),
                 cita.getIdVehiculo()
         );
 
-        boolean exito = dao.insertar(dto);
+        boolean exito = citaDao.insertar(citaDto);
 
         if (exito) {
             vista.cargarDatos(cita);
@@ -114,6 +130,11 @@ public class CitaControlador {
         if (lista != null) {
             vista.mostrarTodo(lista);
         }
+    }
+
+    public void abrirFrmVehiculos() {
+        FrmVehiculos frm = new FrmVehiculos();
+        View.showInternalVehiculos(desktopMenu, frm);
     }
 
     // Deja este método vacío, todavía no he hecho el Frame de Citas
