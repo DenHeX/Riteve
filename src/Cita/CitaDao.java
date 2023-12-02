@@ -23,7 +23,7 @@ public class CitaDao {
     public boolean insertar(CitaDto cita) {
         DaoBD bd = new DaoBD();
 
-        bd.createStatement("INSERT INTO citas VALUES (?, ?, ?, ?)");
+        bd.createStatement("call InsertarCita(?,?,?,?)");
         bd.set(1, cita.getIdCita());
         bd.set(2, cita.getFecha());
         bd.set(3, cita.getHora());
@@ -32,10 +32,10 @@ public class CitaDao {
         return bd.execute(false);
     }
 
-    // Eliminar
+// Eliminar
     public boolean eliminar(int idCita) {
         DaoBD bd = new DaoBD();
-        bd.createStatement("DELETE FROM citas WHERE id_cita = ?");
+        bd.createCallableStatement("{CALL EliminarCita(?)}");
         bd.set(1, idCita);
         return bd.execute(false);
     }
@@ -56,7 +56,7 @@ public class CitaDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.createStatement("SELECT * FROM citas WHERE id_cita = ?");
+            bd.createStatement("call BuscarCita(?)");
             bd.set(1, idCita);
             bd.execute(true);
 
@@ -80,7 +80,7 @@ public class CitaDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.createStatement("SELECT * FROM citas");
+            bd.createStatement("call ObtenerTodasLasCitas()");
             bd.execute(true);
 
             ArrayList<CitaDto> lista = new ArrayList<>();

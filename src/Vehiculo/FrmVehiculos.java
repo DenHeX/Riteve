@@ -45,13 +45,13 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
 
     public void mostrarTodo(ArrayList<VehiculoDto> lista) {
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Número de Placa");
+        model.addColumn("Placa");
         model.addColumn("Marca");
         model.addColumn("Modelo");
         model.addColumn("Antigüedad");
-        model.addColumn("Fecha de Inscripción");
-        model.addColumn("Cédula del Propietario");
-        model.addColumn("Nombre del Propietario");
+        model.addColumn("Fecha Inscripción");
+        model.addColumn("Cédula Propietario");
+        model.addColumn("Nombre Propietario");
 
         for (VehiculoDto vehiculo : lista) {
             Object[] row = {

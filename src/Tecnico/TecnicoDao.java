@@ -10,7 +10,7 @@ public class TecnicoDao {
     public boolean insertar(TecnicoDto tecnico) {
         DaoBD bd = new DaoBD();
 
-        bd.crateStatement("INSERT INTO tecnicos VALUES (?, ?, ?, ?, ?, ?, ?)");
+        bd.createStatement("INSERT INTO tecnicos VALUES (?, ?, ?, ?, ?, ?, ?)");
         bd.set(1, tecnico.getCedula());
         bd.set(2, tecnico.getNombre());
         bd.set(3, tecnico.getFechaNacimiento());
@@ -25,7 +25,7 @@ public class TecnicoDao {
     // Eliminar
     public boolean eliminar(String cedula) {
         DaoBD bd = new DaoBD();
-        bd.crateStatement("DELETE FROM tecnicos WHERE cedula = ?");
+        bd.createStatement("DELETE FROM tecnicos WHERE cedula = ?");
         bd.set(1, cedula);
         return bd.execute(false);
     }
@@ -33,7 +33,7 @@ public class TecnicoDao {
     // Modificar
     public boolean modificar(TecnicoDto tecnico) {
         DaoBD bd = new DaoBD();
-        bd.crateStatement("UPDATE tecnicos SET nombre_completo = ?, fecha_nacimiento = ?, telefono = ?, correo_electronico = ?, salario = ?, contrasena = ? WHERE cedula = ?");
+        bd.createStatement("UPDATE tecnicos SET nombre_completo = ?, fecha_nacimiento = ?, telefono = ?, correo_electronico = ?, salario = ?, contrasena = ? WHERE cedula = ?");
         bd.set(1, tecnico.getNombre());
         bd.set(2, tecnico.getFechaNacimiento());
         bd.set(3, tecnico.getTelefono());
@@ -49,7 +49,7 @@ public class TecnicoDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.crateStatement("SELECT * FROM tecnicos WHERE cedula = ?");
+            bd.createStatement("SELECT * FROM tecnicos WHERE cedula = ?");
             bd.set(1, cedula);
             bd.execute(true);
 
@@ -76,7 +76,7 @@ public class TecnicoDao {
         try {
             DaoBD bd = new DaoBD();
 
-            bd.crateStatement("SELECT * FROM tecnicos");
+            bd.createStatement("SELECT * FROM tecnicos");
             bd.execute(true);
 
             ArrayList<TecnicoDto> lista = new ArrayList<>();
