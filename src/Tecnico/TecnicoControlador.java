@@ -41,7 +41,10 @@ public class TecnicoControlador {
     }
 
     public void eliminar(String cedula) {
-        TecnicoDao dao = new TecnicoDao();
+    TecnicoDao dao = new TecnicoDao();
+
+    // Verificar que exista al menos un técnico registrado en el sistema
+    if (dao.obtenerTodo().size() > 1) {
         boolean exito = dao.eliminar(cedula);
 
         if (exito) {
@@ -50,6 +53,9 @@ public class TecnicoControlador {
         } else {
             vista.notificar("Error al eliminar el técnico", JOptionPane.ERROR_MESSAGE);
         }
+    } else {
+        vista.notificar("Debe haber al menos un técnico registrado en el sistema", JOptionPane.ERROR_MESSAGE);
+    }
     }
 
     public void modificar(Tecnico tecnico) {

@@ -3,6 +3,7 @@ package Tecnico;
 import Tecnico.Tecnico;
 import Tecnico.TecnicoControlador;
 import Tecnico.TecnicoDto;
+import static Views.FrmMenu.desktopMenu;
 import Views.Table;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -386,7 +387,7 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
                 controlador.modificar(tecActual);
                 controlador.clear();
             } else {
-                notificar("Se canceló la modificación de la contraseña.", JOptionPane.INFORMATION_MESSAGE);
+                notificar("Validar Contraseña.", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
             notificar("Contraseña actual incorrecta. La modificación de la contraseña se canceló.", JOptionPane.ERROR_MESSAGE);
@@ -403,7 +404,6 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
                 Double.parseDouble(txtSalario.getText()),
                 txtContrasena.getText()
         );
-
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
