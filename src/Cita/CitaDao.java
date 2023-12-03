@@ -119,12 +119,16 @@ public class CitaDao {
         bd.createCallableStatement("{CALL CitasMismoHorario(?, ?, ?)}");
         bd.set(1, fecha);
         bd.set(2, hora);
-        bd.setOutputParameter(3, Types.INTEGER); // Parámetro de salida para indicar si hay cuatro citas registradas
+        bd.setOutputParameter(3, Types.INTEGER); // Parámetro de salida para indicar la cantidad de citas registradas
+
         if (bd.execute(true)) {
-            return bd.getOutputParameterValue(3) > 0; // Verificar si el valor es mayor que cero
+            int cantidadCitas = bd.getOutputParameterValue(3);
+
+            // Verificar si hay exactamente cuatro citas registradas
+            return cantidadCitas == 4;
         } else {
             return false; // Por defecto, no hay cuatro citas registradas en el mismo horario
-        } // Por defecto, no hay cuatro citas registradas en el mismo horario
+        }
     }
 
 }
