@@ -11,16 +11,27 @@ public class RevisionControlador {
         this.vista = vista;
     }
 
-    public void agregar(RevisionDto revision) {
-        RevisionDao dao = new RevisionDao();
+    public void agregar(Revision revision) {
+    RevisionDao dao = new RevisionDao();
 
-        if (dao.buscar(revision.getIdRevision()) == null) {
-            boolean exito = dao.insertar(revision);
+    if (dao.buscar(revision.getIdRevision()) == null) {
+        RevisionDto dto = new RevisionDto(
+            revision.getIdRevision(),
+            revision.getFecha(),
+            revision.getHora(),
+            revision.getIdTecnico(),
+            revision.getIdCita(),
+            revision.getTipoRevision(),
+            revision.getObservaciones(),
+            revision.getEstado()
+        );
+
+        boolean exito = dao.insertar(dto);
 
             if (exito) {
                 vista.notificar("Revisión agregada correctamente", JOptionPane.INFORMATION_MESSAGE);
                 cargarTodo();
-                clear();
+                limpiar();
             } else {
                 vista.notificar("Error al agregar la revisión", JOptionPane.ERROR_MESSAGE);
             }
@@ -47,17 +58,28 @@ public class RevisionControlador {
         }
     }
 
-    public void actualizar(RevisionDto revision) {
+    public void actualizar(Revision revision) {
         RevisionDao dao = new RevisionDao();
 
         RevisionDto revisionExistente = dao.buscar(revision.getIdRevision());
         if (revisionExistente != null) {
-            boolean exito = dao.actualizar(revision);
+            RevisionDto dto = new RevisionDto(
+                    revision.getIdRevision(),
+                    revision.getFecha(),
+                    revision.getHora(),
+                    revision.getIdTecnico(),
+                    revision.getIdCita(),
+                    revision.getTipoRevision(),
+                    revision.getObservaciones(),
+                    revision.getEstado()
+            );
+
+            boolean exito = dao.actualizar(dto);
 
             if (exito) {
                 vista.notificar("Revisión actualizada correctamente", JOptionPane.INFORMATION_MESSAGE);
                 cargarTodo();
-                clear();
+                limpiar();
             } else {
                 vista.notificar("Error al actualizar la revisión", JOptionPane.ERROR_MESSAGE);
             }
@@ -72,7 +94,7 @@ public class RevisionControlador {
         RevisionDto revisionEncontrada = dao.buscar(idRevision);
 
         if (revisionEncontrada != null) {
-            vista.mostrarRevisionEncontrada(revisionEncontrada);
+            vista.cargarDatos(revisionEncontrada);
             vista.notificar("Revisión encontrada", JOptionPane.INFORMATION_MESSAGE);
         } else {
             vista.notificar("Revisión no encontrada", JOptionPane.ERROR_MESSAGE);
@@ -85,7 +107,7 @@ public class RevisionControlador {
         ArrayList<RevisionDto> listaRevisiones = dao.obtenerTodo();
 
         if (listaRevisiones != null) {
-            vista.mostrarTodasLasRevisiones(listaRevisiones);
+            vista.mostrarTodo(listaRevisiones);
         } else {
             vista.notificar("Error al cargar las revisiones", JOptionPane.ERROR_MESSAGE);
         }

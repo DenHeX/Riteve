@@ -5,6 +5,7 @@
 package Views;
 
 import Cita.FrmCitas;
+import Revision.FrmRevisiones;
 import Tecnico.FrmTecnicos;
 import Vehiculo.FrmVehiculos;
 
@@ -37,6 +38,7 @@ public class FrmMenu extends javax.swing.JFrame {
         menuVehiculos = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         menuCitas = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,6 +88,16 @@ public class FrmMenu extends javax.swing.JFrame {
         });
         menuManage.add(menuCitas);
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jMenuItem2.setText("Reviviones");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        menuManage.add(jMenuItem2);
+
         menu.add(menuManage);
 
         setJMenuBar(menu);
@@ -118,6 +130,11 @@ public class FrmMenu extends javax.swing.JFrame {
         FrmCitas frm = new FrmCitas();
         View.showInternalCitas(desktopMenu, frm);
     }//GEN-LAST:event_menuCitasActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        FrmRevisiones frm = new FrmRevisiones();
+        View.showInternalRevisiones(desktopMenu, frm);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,6 +205,7 @@ public class FrmMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane desktopMenu;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenuItem menuCitas;
     private javax.swing.JMenu menuManage;
