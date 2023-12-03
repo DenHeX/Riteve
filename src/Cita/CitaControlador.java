@@ -119,6 +119,7 @@ public class CitaControlador {
     }
 
     public void clear() {
+        vista.txtCita.setText("");
         vista.txtFecha.setText("");
         vista.txtHora.setText("");
         vista.txtPlaca.setText("");
