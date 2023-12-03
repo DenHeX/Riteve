@@ -28,42 +28,23 @@ public class CitaControlador {
     }
 
     public void agregar(Cita cita) {
-        CitaDao citaDao = new CitaDao();
-        VehiculoDao vehiculoDao = new VehiculoDao();
-
-        // Verificar si el vehículo tiene una cita activa
-        boolean tieneCitaActiva = citaDao.verificarCitaActiva(cita.getIdVehiculo());
-
-        if (tieneCitaActiva) {
-            vista.notificar("El vehículo ya tiene una cita activa.", JOptionPane.ERROR_MESSAGE);
+        if (!validarFechaYHora(cita.getFecha(), cita.getHora())) {
             return;
         }
 
-        // Verificar si el vehículo existe en la base de datos
-        VehiculoDto vehiculoDto = vehiculoDao.buscar(cita.getIdVehiculo());
-
-        if (vehiculoDto == null) {
-            // Si el vehículo no existe, abrir el formulario FrmVehiculos
-            vista.notificar("El vehículo no existe. Abriendo el formulario para agregar vehículo.", JOptionPane.WARNING_MESSAGE);
-            abrirFrmVehiculos();
+        if (tieneCitaActiva(cita.getIdVehiculo())) {
             return;
         }
 
-        // Verificar si hay cuatro citas registradas en la misma fecha y hora con vehículos diferentes
-        boolean hayCitasMismoHorario = citaDao.verificarCitasMismoHorario(cita.getFecha(), cita.getHora());
-
-        if (hayCitasMismoHorario) {
-            vista.notificar("Ya hay cuatro citas registradas en la misma fecha y hora.", JOptionPane.ERROR_MESSAGE);
+        if (!verificarExistenciaVehiculo(cita.getIdVehiculo())) {
             return;
         }
 
-        CitaDto citaDto = new CitaDto(
-                cita.getFecha(),
-                cita.getHora(),
-                cita.getIdVehiculo()
-        );
+        if (hayCitasMismoHorario(cita.getFecha(), cita.getHora())) {
+            return;
+        }
 
-        boolean exito = citaDao.insertar(citaDto);
+        boolean exito = insertarCita(cita);
 
         if (exito) {
             vista.cargarDatos(cita);
@@ -137,10 +118,66 @@ public class CitaControlador {
         View.showInternalVehiculos(desktopMenu, frm);
     }
 
-    // Deja este método vacío, todavía no he hecho el Frame de Citas
     public void clear() {
+        vista.txtCita.setText("");
         vista.txtFecha.setText("");
         vista.txtHora.setText("");
         vista.txtPlaca.setText("");
     }
+
+    private boolean validarFechaYHora(Date fecha, Time hora) {
+        java.util.Date fechaHoraActual = new java.util.Date();
+
+        if (fecha.before(fechaHoraActual)
+                || (fecha.equals(fechaHoraActual) && hora.before(new java.sql.Time(fechaHoraActual.getTime())))) {
+            vista.notificar("La fecha y hora de la cita no pueden ser menores a la fecha y hora actual.", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean tieneCitaActiva(String idVehiculo) {
+        CitaDao citaDao = new CitaDao();
+        boolean tieneCitaActiva = citaDao.verificarCitaActiva(idVehiculo);
+
+        if (tieneCitaActiva) {
+            vista.notificar("El vehículo ya tiene una cita activa.", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean verificarExistenciaVehiculo(String idVehiculo) {
+        VehiculoDao vehiculoDao = new VehiculoDao();
+        VehiculoDto vehiculoDto = vehiculoDao.buscar(idVehiculo);
+
+        if (vehiculoDto == null) {
+            vista.notificar("El vehículo no existe. Abriendo el formulario para agregar vehículo.", JOptionPane.WARNING_MESSAGE);
+            abrirFrmVehiculos();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hayCitasMismoHorario(Date fecha, Time hora) {
+        CitaDao citaDao = new CitaDao();
+        boolean hayCitasMismoHorario = citaDao.verificarCitasMismoHorario(fecha, hora);
+
+        if (hayCitasMismoHorario) {
+            vista.notificar("Ya hay cuatro citas registradas en la misma fecha y hora.", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean insertarCita(Cita cita) {
+        CitaDao citaDao = new CitaDao();
+        CitaDto citaDto = new CitaDto(
+                cita.getFecha(),
+                cita.getHora(),
+                cita.getIdVehiculo()
+        );
+        return citaDao.insertar(citaDto);
+    }
+
 }

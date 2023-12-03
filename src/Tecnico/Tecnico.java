@@ -4,7 +4,6 @@ package Tecnico;
  *
  * @author rsand
  */
-
 public class Tecnico {
 
     private String cedula;
@@ -15,7 +14,7 @@ public class Tecnico {
     private double salario;
     private int contrasena;
 
-    public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario,String contrasena) {
+    public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario, String contrasena) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
@@ -24,7 +23,9 @@ public class Tecnico {
         this.salario = salario;
         this.contrasena = encrypt(contrasena);
     }
-        public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario, int contrasena) {
+
+    public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario, int contrasena) {
+
         this.cedula = cedula;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
@@ -89,8 +90,9 @@ public class Tecnico {
     public void setContrasena(String contrasena) {
         this.contrasena = encrypt(contrasena);
     }
+
     private int encrypt(String contrasena) {
         return contrasena.hashCode();
     }
-    
+
 }
