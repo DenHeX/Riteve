@@ -1,15 +1,40 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Revision;
 
-import Tecnico.*;
+import java.time.LocalDateTime;
 
-/**
- *
- * @author ´Felipe Chacón
- */
 public class RevisionDto {
+    private LocalDateTime fecha;
+    private String tecnico;
+    private String tipo;
+    private String observaciones;
+    private String estado;
+
+    public RevisionDto(LocalDateTime fecha, String tecnico, String tipo, String observaciones, String estado) {
+        this.fecha = fecha;
+        this.tecnico = tecnico;
+        this.tipo = tipo;
+        this.observaciones = observaciones;
+        this.estado = estado;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public String getTecnico() {
+        return tecnico;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
     
+    public String getEstado() {
+        return estado;
+    }
 }
+
