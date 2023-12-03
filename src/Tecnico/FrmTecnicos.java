@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author rsand
  */
+
 public class FrmTecnicos extends javax.swing.JInternalFrame {
 
     private TecnicoControlador controlador;
@@ -38,7 +39,7 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
         txtTelefono.setText(tecnico.getTelefono());
         txtCorreo.setText(tecnico.getCorreo());
         txtSalario.setText(String.valueOf(tecnico.getSalario()));
-        txtContrasena.setText(tecnico.getContrasena());
+        txtContrasena.setText(String.valueOf(tecnico.getContrasena()));
     }
 
     void mostrarTodo(ArrayList<TecnicoDto> lista) {
@@ -50,11 +51,38 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
         model.addColumn("Correo");
         model.addColumn("Salario");
         model.addColumn("Contrasena");
+        model.addColumn("Enfermedad/Maternidad");
+        model.addColumn("Invalidez/Muerte");
+        model.addColumn("Aporte Trabajador");
+        model.addColumn("Aporte Solidarista");
+        model.addColumn("Impuesto sobre la Renta");
+        model.addColumn("Salario Neto");
 
         for (TecnicoDto tecDao : lista) {
+            double salario = tecDao.getSalario();
+            double enfermedadMaternidad = salario * 0.055;
+            double invalidezMuerte = salario * 0.0384;
+            double aporteTrabajador = salario * 0.01;
+            double aporteSolidarista = salario * 0.033;
+
+            double exento = 817000;
+            double impuestoRenta = 0;
+
+            if (salario > exento && salario <= 1226000) {
+                impuestoRenta = (salario - exento) * 0.1;
+            } else if (salario > 1226000) {
+                impuestoRenta = (salario - 1226000) * 0.15 + (1226000 - exento) * 0.1;
+            }
+
+            double salarioNeto = salario - enfermedadMaternidad - invalidezMuerte - aporteTrabajador - aporteSolidarista - impuestoRenta;
+
             Object[] row = {tecDao.getCedula(), tecDao.getNombre(),
                 tecDao.getFechaNacimiento(), tecDao.getTelefono(),
-                tecDao.getCorreo(), tecDao.getSalario(), tecDao.getContrasena()};
+                tecDao.getCorreo(), tecDao.getSalario(),
+                tecDao.getContrasena(),
+                enfermedadMaternidad, invalidezMuerte, aporteTrabajador, aporteSolidarista, impuestoRenta,
+                salarioNeto};
+
             model.addRow(row);
         }
 
@@ -75,6 +103,7 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         txtTelefono = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -137,30 +166,41 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/edit_clear_locationbar_rtl (3).png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(20, 20, 20)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(20, 20, 20)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(20, 20, 20)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(20, 20, 20)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addGap(20, 20, 20)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -202,11 +242,6 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        txtFechaNacimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaNacimientoActionPerformed(evt);
-            }
-        });
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -246,7 +281,7 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 227, Short.MAX_VALUE))
+                                .addGap(0, 242, Short.MAX_VALUE))
                             .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -326,7 +361,7 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFiltro)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1211, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -345,10 +380,11 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -367,23 +403,16 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // Obtén el técnico actual
         Tecnico tecActual = obtenerTecnicoActual();
 
-        // Pide al usuario que ingrese su contraseña actual
         String contrasenaActual = JOptionPane.showInputDialog(this, "Ingrese su contraseña actual:", "Verificar Contraseña", JOptionPane.PLAIN_MESSAGE);
 
-        // Verifica si el usuario ingresó una contraseña actual
         if (contrasenaActual != null && contrasenaActual.equals(tecActual.getContrasena())) {
-            // Contraseña actual es válida, ahora pide al usuario que ingrese la nueva contraseña
             String nuevaContrasena = JOptionPane.showInputDialog(this, "Ingrese su nueva contraseña:", "Modificar Contraseña", JOptionPane.PLAIN_MESSAGE);
 
-            // Verifica si el usuario ingresó una nueva contraseña
             if (nuevaContrasena != null) {
-                // Modifica el técnico con la nueva contraseña
                 tecActual.setContrasena(nuevaContrasena);
 
-                // Actualiza el técnico
                 controlador.modificar(tecActual);
                 controlador.clear();
             } else {
@@ -442,9 +471,9 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
         Table.filter(this.tblTecnicos, txtFiltro.getText());
     }//GEN-LAST:event_txtFiltroKeyReleased
 
-    private void txtFechaNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaNacimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaNacimientoActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        controlador.clear();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -452,6 +481,7 @@ public class FrmTecnicos extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

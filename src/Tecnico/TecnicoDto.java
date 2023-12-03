@@ -6,13 +6,13 @@ package Tecnico;
  */
 public class TecnicoDto {
 
-    private String cedula;
+   private String cedula;
     private String nombre;
     private String fechaNacimiento;
     private String telefono;
     private String correo;
     private double salario;
-    private String contrasena;
+    private int contrasena;
 
     public TecnicoDto(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario,String contrasena) {
         this.cedula = cedula;
@@ -21,16 +21,16 @@ public class TecnicoDto {
         this.telefono = telefono;
         this.correo = correo;
         this.salario = salario;
-        this.contrasena = contrasena;
+        this.contrasena = encrypt(contrasena);
     }
-        public TecnicoDto(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario) {
+        public TecnicoDto(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario, int contrasena) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
         this.correo = correo;
         this.salario = salario;
-        this.contrasena = "";
+        this.contrasena = contrasena;
     }
 
     public String getCedula() {
@@ -57,8 +57,12 @@ public class TecnicoDto {
         return salario;
     }
 
-    public String getContrasena() {
+    public int getContrasena() {
         return contrasena;
     }
 
+    private int encrypt(String contrasena) {
+        return contrasena.hashCode();
+    }
+    
 }

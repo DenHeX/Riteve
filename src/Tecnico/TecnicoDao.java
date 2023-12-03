@@ -4,9 +4,13 @@ import DaoDB.DaoBD;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author rsand
+ */
+
 public class TecnicoDao {
 
-    // Insertar
     public boolean insertar(TecnicoDto tecnico) {
         DaoBD bd = new DaoBD();
 
@@ -22,7 +26,6 @@ public class TecnicoDao {
         return bd.execute(false);
     }
 
-    // Eliminar
     public boolean eliminar(String cedula) {
         DaoBD bd = new DaoBD();
         bd.createStatement("DELETE FROM tecnicos WHERE cedula = ?");
@@ -30,7 +33,6 @@ public class TecnicoDao {
         return bd.execute(false);
     }
 
-    // Modificar
     public boolean modificar(TecnicoDto tecnico) {
         DaoBD bd = new DaoBD();
         bd.createStatement("UPDATE tecnicos SET nombre_completo = ?, fecha_nacimiento = ?, telefono = ?, correo_electronico = ?, salario = ?, contrasena = ? WHERE cedula = ?");
@@ -44,7 +46,6 @@ public class TecnicoDao {
         return bd.execute(false);
     }
 
-    // Buscar
     public TecnicoDto buscar(String cedula) {
         try {
             DaoBD bd = new DaoBD();
@@ -71,7 +72,6 @@ public class TecnicoDao {
         }
     }
 
-    // Obtener todos
     public ArrayList<TecnicoDto> obtenerTodo() {
         try {
             DaoBD bd = new DaoBD();

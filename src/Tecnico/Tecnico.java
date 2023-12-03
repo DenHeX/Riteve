@@ -2,8 +2,9 @@ package Tecnico;
 
 /**
  *
- * @author ´Ronny Sandino
+ * @author rsand
  */
+
 public class Tecnico {
 
     private String cedula;
@@ -12,7 +13,7 @@ public class Tecnico {
     private String telefono;
     private String correo;
     private double salario;
-    private String contrasena;
+    private int contrasena;
 
     public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario,String contrasena) {
         this.cedula = cedula;
@@ -21,16 +22,16 @@ public class Tecnico {
         this.telefono = telefono;
         this.correo = correo;
         this.salario = salario;
-        this.contrasena = contrasena;
+        this.contrasena = encrypt(contrasena);
     }
-        public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario) {
+        public Tecnico(String cedula, String nombre, String fechaNacimiento, String telefono, String correo, double salario, int contrasena) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
         this.correo = correo;
         this.salario = salario;
-        this.contrasena = "";
+        this.contrasena = contrasena;
     }
 
     public String getCedula() {
@@ -81,43 +82,15 @@ public class Tecnico {
         this.salario = salario;
     }
 
-    public String getContrasena() {
+    public int getContrasena() {
         return contrasena;
     }
 
     public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+        this.contrasena = encrypt(contrasena);
     }
-
-    public void calcularDeducciones() {
-        double enfermedadMaternidad = salario * 0.055;
-        double invalidezMuerte = salario * 0.0384;
-        double aporteTrabajador = salario * 0.01;
-        double aporteSolidarista = salario * 0.033;
-
-        // Impuesto sobre la renta
-        double exento = 817000;
-        double impuestoRenta = 0;
-
-        if (salario > exento && salario <= 1226000) {
-            impuestoRenta = (salario - exento) * 0.1;
-        } else if (salario > 1226000) {
-            impuestoRenta = (salario - 1226000) * 0.15 + (1226000 - exento) * 0.1;
-        }
-        // Restar impuesto después del cálculo
-        double salarioNeto = salario - enfermedadMaternidad - invalidezMuerte - aporteTrabajador - aporteSolidarista - impuestoRenta;
+    private int encrypt(String contrasena) {
+        return contrasena.hashCode();
     }
-
-    public void cambiarContrasena(String contrasenaActual, String nuevaContrasena) {
-        if (validarContrasena(contrasenaActual)) {
-            this.contrasena = nuevaContrasena;
-            System.out.println("Contraseña cambiada exitosamente.");
-        } else {
-            System.out.println("Error: Contraseña actual incorrecta.");
-        }
-    }
-
-    public boolean validarContrasena(String contrasena) {
-        return this.contrasena.equals(contrasena);
-    }
+    
 }

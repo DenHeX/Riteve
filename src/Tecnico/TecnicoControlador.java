@@ -3,6 +3,11 @@ package Tecnico;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author rsand
+ */
+
 public class TecnicoControlador {
 
     FrmTecnicos vista;
@@ -43,7 +48,6 @@ public class TecnicoControlador {
     public void eliminar(String cedula) {
     TecnicoDao dao = new TecnicoDao();
 
-    // Verificar que exista al menos un técnico registrado en el sistema
     if (dao.obtenerTodo().size() > 1) {
         boolean exito = dao.eliminar(cedula);
 

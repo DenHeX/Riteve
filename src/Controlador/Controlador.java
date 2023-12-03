@@ -4,9 +4,9 @@ package Controlador;
 import java.util.List;
 
 public interface Controlador<Class> {
-    public boolean create(Class obj);
-    public Class read(String id);
-    public List<Class> readAll();
-    public boolean update(Class obj);
-    public boolean delete(Class obj);
+    public boolean agregar(Class obj);
+    public Class buscar(String id);
+    public List<Class> cargarTodo();
+    public boolean modificar(Class obj);
+    public boolean eliminar(Class obj);
 }
