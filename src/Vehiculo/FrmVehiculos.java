@@ -284,6 +284,11 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         }
         txtFechadeInscripcion.setToolTipText("");
         txtFechadeInscripcion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFechadeInscripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechadeInscripcionActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Cedula propietario");
@@ -406,6 +411,10 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         Object numeroPlaca = tblVehiculos.getValueAt(row, 0);
         controlador.buscar((String) numeroPlaca);
     }//GEN-LAST:event_tblVehiculosMouseClicked
+
+    private void txtFechadeInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechadeInscripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechadeInscripcionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

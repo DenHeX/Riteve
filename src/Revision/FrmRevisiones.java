@@ -118,14 +118,20 @@ public class FrmRevisiones extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Hora");
 
-        txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        try {
+            txtHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtHora.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        txtIdRevision.setEditable(false);
         txtIdRevision.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtIdRevision.setFocusable(false);
 
-        txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        try {
+            txtFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtFecha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -263,10 +269,8 @@ public class FrmRevisiones extends javax.swing.JInternalFrame {
         jLabel6.setText("Cédula del técnico");
 
         txtIdTecnico.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtIdTecnico.setFocusable(false);
 
         txtIdCita.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtIdCita.setFocusable(false);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("N.° Cita");
