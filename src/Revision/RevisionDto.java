@@ -23,6 +23,17 @@ public class RevisionDto {
         this.observaciones = observaciones;
         this.estado = estado;
     }
+    
+    public RevisionDto(Date fecha, Time hora, String idTecnico, int idCita, String tipoRevision, String observaciones, String estado) {
+        this.idRevision = 0;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.idTecnico = idTecnico;
+        this.idCita = idCita;
+        this.tipoRevision = tipoRevision;
+        this.observaciones = observaciones;
+        this.estado = estado;
+    }
 
     public int getIdRevision() {
         return idRevision;

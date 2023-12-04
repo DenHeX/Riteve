@@ -16,7 +16,6 @@ public class RevisionControlador {
 
     if (dao.buscar(revision.getIdRevision()) == null) {
         RevisionDto dto = new RevisionDto(
-            revision.getIdRevision(),
             revision.getFecha(),
             revision.getHora(),
             revision.getIdTecnico(),
