@@ -54,10 +54,7 @@ public class FrmRevisiones extends javax.swing.JInternalFrame {
                 revision.getIdRevision(),
                 revision.getFecha(),
                 revision.getHora(),
-                revision.getIdTecnico(),
-                revision.getIdCita(),
                 revision.getTipoRevision(),
-                revision.getObservaciones(),
                 revision.getEstado()
             };
             modeloTabla.addRow(fila);
@@ -200,7 +197,7 @@ public class FrmRevisiones extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Fecha", "Hora", "Tipo", "Estado"
+                "N.° Revision", "Fecha", "Hora", "Tipo", "Estado"
             }
         ) {
             Class[] types = new Class [] {
