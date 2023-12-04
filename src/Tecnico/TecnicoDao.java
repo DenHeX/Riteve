@@ -4,11 +4,6 @@ import DaoDB.DaoBD;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author rsand
- */
-
 public class TecnicoDao {
 
     public boolean insertar(TecnicoDto tecnico) {

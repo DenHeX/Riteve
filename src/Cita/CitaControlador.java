@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Cita;
 
 import Vehiculo.FrmVehiculos;
@@ -14,11 +10,6 @@ import java.sql.Time;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-/**
- * Controlador para gestionar las citas de revisión vehicular. Se asume la
- * existencia de un formulario FrmCitas. Asegúrate de ajustar los nombres de las
- * clases según tu implementación.
- */
 public class CitaControlador {
 
     FrmCitas vista;

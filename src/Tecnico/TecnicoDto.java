@@ -1,9 +1,5 @@
 package Tecnico;
 
-/**
- *
- * @author ´Ronny Sandino
- */
 public class TecnicoDto {
 
    private String cedula;

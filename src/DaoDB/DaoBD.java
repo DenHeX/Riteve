@@ -1,23 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DaoDB;
 
 import com.mysql.cj.jdbc.CallableStatement;
 import java.sql.Connection;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author rsand
- */
 public class DaoBD {
 
     private Connection connection;
@@ -109,7 +98,7 @@ public class DaoBD {
             return ((CallableStatement) this.statement).getInt(index);
         } catch (SQLException ex) {
             System.out.println("Error al obtener valor de parámetro de salida: " + ex.toString());
-            return 0; // Otra opción: lanzar una excepción o manejar de otra manera
+            return 0;
         }
     }
 

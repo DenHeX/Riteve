@@ -107,6 +107,11 @@ public class FrmRevisiones extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setTitle("Administración de Revisiones");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Views/ICON/accessories_text_editor (3).png"))); // NOI18N
+
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -175,6 +180,7 @@ public class FrmRevisiones extends javax.swing.JInternalFrame {
         txtObservaciones.setRows(5);
         jScrollPane2.setViewportView(txtObservaciones);
 
+        cbEstado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aprobado", "Reprobado" }));
         cbEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,6 +281,7 @@ public class FrmRevisiones extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("N.° Cita");
 
+        cbTipo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inspección", "Reinspección" }));
         cbTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

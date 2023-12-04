@@ -3,11 +3,6 @@ package Tecnico;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
-/**
- *
- * @author rsand
- */
-
 public class TecnicoControlador {
 
     FrmTecnicos vista;

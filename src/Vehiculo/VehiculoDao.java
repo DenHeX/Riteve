@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Vehiculo;
 
 import DaoDB.DaoBD;
@@ -11,7 +7,6 @@ import java.sql.Date;
 
 public class VehiculoDao {
 
-    // Insertar
     public boolean insertar(VehiculoDto vehiculo) {
         DaoBD bd = new DaoBD();
 
@@ -27,7 +22,6 @@ public class VehiculoDao {
         return bd.execute(false);
     }
 
-    // Eliminar
     public boolean eliminar(String numeroPlaca) {
         DaoBD bd = new DaoBD();
         bd.createStatement("DELETE FROM vehiculos WHERE numero_placa = ?");
@@ -35,7 +29,6 @@ public class VehiculoDao {
         return bd.execute(false);
     }
 
-    // Modificar
     public boolean modificar(VehiculoDto vehiculo) {
         DaoBD bd = new DaoBD();
         bd.createStatement("UPDATE vehiculos SET marca = ?, modelo = ?, anio = ?, fecha_inscripcion = ?, cedula_propietario = ?, nombre_propietario = ? WHERE numero_placa = ?");
@@ -49,7 +42,6 @@ public class VehiculoDao {
         return bd.execute(false);
     }
 
-    // Buscar
     public VehiculoDto buscar(String numeroPlaca) {
         try {
             DaoBD bd = new DaoBD();
@@ -76,7 +68,6 @@ public class VehiculoDao {
         }
     }
 
-    // Obtener todos
     public ArrayList<VehiculoDto> obtenerTodo() {
         try {
             DaoBD bd = new DaoBD();

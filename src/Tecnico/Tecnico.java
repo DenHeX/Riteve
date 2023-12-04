@@ -1,9 +1,5 @@
 package Tecnico;
 
-/**
- *
- * @author rsand
- */
 public class Tecnico {
 
     private String cedula;

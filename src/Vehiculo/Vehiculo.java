@@ -1,12 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Vehiculo;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
 
 public class Vehiculo {
 
@@ -18,7 +12,6 @@ public class Vehiculo {
     private String cedulaPropietario;
     private String nombrePropietario;
 
-    // Constructor
     public Vehiculo(String numeroPlaca, String marca, String modelo, int anio, Date fechaInscripcion,
             String cedulaPropietario, String nombrePropietario) {
         this.numeroPlaca = numeroPlaca;
@@ -40,7 +33,6 @@ public class Vehiculo {
         this.nombrePropietario = "";
     }
 
-    // Métodos getter y setter
     public String getNumeroPlaca() {
         return numeroPlaca;
     }
